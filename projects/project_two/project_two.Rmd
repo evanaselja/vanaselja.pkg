@@ -152,12 +152,12 @@ linear_plot
 4) Choose any model we've looked at so far, but use two predictor variables. Perform an LM, plot the results, and state if this changes your interpretation of the relationship between variables (10 pts)
 
 ```{r}
-fot <- lm(formula = SL ~ CPD + LL, data = mydata)
+fot <- lm(formula = SL ~ CPD * Sex, data = mydata)
 summary(fot)
 ```
 
 ```{r}
-ggplot(mydata, aes(SL, CPD, color = LL)) + geom_point() + geom_smooth(method = "lm")
+ggplot(mydata, aes(SL, CPD, color = Sex)) + geom_point() + geom_smooth()
 ```
 
 ```
