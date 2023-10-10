@@ -1,0 +1,188 @@
+---
+title: "Project Two"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+Due Oct. 13 at 11:59 PM. 
+
+For this first part of the exam, you can either use `surveys_complete.csv` or your own data. If you are using your own data, you must have data in which you think you have a numerical predictor variable and a numerical response variable. If you are using `surveys_complete`, you can use weight and hindfoot_length for this.
+
+Save this file in your `projects` directory. You can either save it in a project two subdirectory, or just put it in projects. Either way is fine.
+
+
+1) Load in your data. Which variable will you be using as a predictor, and which as a response? (5 pts)
+
+```{r}
+mydata <- read_csv("../../data/Copy of gutselli meristics - newmanii_Lwr Pigeon-Little Rivr.csv")
+
+mydata <- mydata %>% 
+na.omit %>% 
+filter(Sex != "j")
+
+# SL as predictor, LL as response. 
+```
+
+```
+# Answer which column is predictor and which is response
+
+SL as predictor, LL as response. 
+```
+
+2) Plot the two against each other with a scatter plot. Do the data appear to be related linearly? (5 pts)
+
+
+```{r}
+linear_plot <- ggplot(mydata, mapping = aes(LL, SL)) + geom_point()
+
+linear_plot
+
+#They do not have a relation linearly.
+```
+
+```
+#SL as predictor, LL as response. 
+```
+
+
+3) Fit the linear model. View the summary. (5 pts)
+
+
+```{r}
+fit <- lm(SL ~ LL, data = mydata)
+summary(fit)
+```
+
+4) Does the summary make sense when you compare it to the plot you made? Does our model have good predictive power? Evaluate the residual standard error, intercept, and R-Squared in particular. Would you say your predictor predicts the response?  (10 pts)
+
+
+```
+# Yes, the summary makes sense in comparison to the plot. The model does not have good predictive power. The residual standar error is very large, the intercept has a high amount of variation, and the R-squared is very low. So, the predictor does not predict the response.
+```
+
+
+5) Plot the model on the graph. Increase the size of the text so it is comfortably readable at 5 feet. Make sure axis labels are readable and not overlapping with one another. (5 pts)
+
+```{r}
+linear_plot <- ggplot(mydata, mapping = aes(LL, SL)) + geom_point() + geom_smooth(method = "lm", color = "navy", size = 0.5, fill = "deeppink4") + theme(text = element_text(size = 20))
+
+linear_plot
+```
+
+
+6) Check the normality of the residuals. Do they look OK? Are we violating assumptions? (5 pts)
+
+```{r}
+
+fitted <- broom::augment(fit)
+
+qqnorm(fitted$.resid)
+qqline(fitted$.resid, col = "red")
+
+# It looks okay, it seems to even out. We are not violating assumptions. 
+
+```
+
+Why is normality of residuals important? 
+
+```{r}
+
+# Normality of residuals is important, because it is important to determine if the relationship between your data is significant. 
+```
+
+7) If you are using `surveys_complete`: Is there interspecific variation in the linear model? Hint: look at our prior work with facet plots. (15 pts) 
+
+If you are *not* using  `surveys_complete`: Do you think there are groupings within your data that may have a separate linear model? Try grouping the data by that variable and redoing the lm. If this would not make sense for your data, you may also attempt to do multiple predictor variables. (15 pts)
+
+```{r}
+# Yes, I believe that other groupings within the data will have a separate linear model.
+
+fit <- lm(TV ~ LL, data = mydata)
+summary(fit)
+
+fit <- lm(TV ~ CPD, data = mydata)
+summary(fit)
+
+plot <- ggplot(mydata, mapping = aes(TV, LL)) + geom_point()
+
+plot
+```
+
+## Part Two
+
+In this portion, you are free to use your own data if you have a categorical predictor variable and a response variable. Otherwise, you may use the columns sex and weight in `surveys_complete`
+
+1) First, plot the data grouped by sex (5 pts)
+
+```{r}
+
+ggplot(mydata, aes(Sex, SL, color = Sex)) + geom_jitter()
+```
+
+2) Try an ANOVA of this data (5 pt)
+
+```{r}
+model_fit <- lm(SL ~ Sex, data = mydata)
+aov(model_fit) -> anova_model_fit
+summary(anova_model_fit)
+```
+
+3) How about a linear model? What information does this give you that an ANOVA can't? (5 pts)
+
+
+```{r}
+fit <- lm(SL ~ Sex, data = mydata)
+summary(fit)
+```
+
+```
+#It gives more information about the R^2, which can determine the signficance of the data and the standard error which can help decide how the data is related.
+```
+
+3) Plot the lm with the data, with points colored by sex. (10 pts)
+
+
+```{r}
+linear_plot <- ggplot(mydata, mapping = aes(Sex, SL, color = Sex)) + geom_jitter() + geom_smooth(method = "lm", color = "navy", size = 0.5, fill = "deeppink4") + theme(text = element_text(size = 20))
+
+linear_plot
+```
+
+4) Choose any model we've looked at so far, but use two predictor variables. Perform an LM, plot the results, and state if this changes your interpretation of the relationship between variables (10 pts)
+
+```{r}
+fot <- lm(formula = SL ~ CPD + LL, data = mydata)
+summary(fot)
+```
+
+```{r}
+ggplot(mydata, aes(SL, CPD, color = LL)) + geom_point() + geom_smooth(method = "lm")
+```
+
+```
+# No, because it seems like there really isn't much of a relationship between variables. There is a pretty high p-value, noting not much significance to the relationships.
+```
+
+## Part Three
+
+
+1) Add and commit this document (5 pts)
+
+```
+git_add(project_two.Rmd, "Finalized the information and code for Project Two")
+
+ctrl + alt + M
+```
+
+2) Push your changes to github (10 pts)
+
+```
+#Commands here
+```
+
+
+
+# MS students
+
+My expectation is that you'll do this with your own data. If any part of this doesn't make sense with your data, please get in touch ASAP so we can work it out.
