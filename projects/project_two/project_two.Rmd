@@ -178,8 +178,3 @@ ggplot(mydata, aes(SL, CPD, color = Sex)) + geom_point() + geom_smooth() + scale
 # I pushed the changes to github and double checked that they were there and correct.
 ```
 
-
-
-# MS students
-
-My expectation is that you'll do this with your own data. If any part of this doesn't make sense with your data, please get in touch ASAP so we can work it out.
