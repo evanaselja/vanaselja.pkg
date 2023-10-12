@@ -169,15 +169,13 @@ ggplot(mydata, aes(SL, CPD, color = Sex)) + geom_point() + geom_smooth() + scale
 1) Add and commit this document (5 pts)
 
 ```
-git_add(project_two.Rmd, "Finalized the information and code for Project Two")
-
-ctrl + alt + M
+# I added the documnet in my Git tab, then committed it with the changes that I made.
 ```
 
 2) Push your changes to github (10 pts)
 
 ```
-#Commands here
+# I pushed the changes to github and double checked that they were there and correct.
 ```
 
 
