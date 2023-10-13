@@ -101,10 +101,7 @@ If you are *not* using  `surveys_complete`: Do you think there are groupings wit
 fit <- lm(TV ~ LL, data = mydata)
 summary(fit)
 
-fit <- lm(TV ~ CPD, data = mydata)
-summary(fit)
-
-plot <- ggplot(mydata, mapping = aes(TV, LL)) + geom_jitter()
+plot <- ggplot(mydata, mapping = aes(TV, LL)) + geom_jitter() + geom_smooth(method = "lm")
 plot
 ```
 
@@ -115,8 +112,11 @@ In this portion, you are free to use your own data if you have a categorical pre
 1) First, plot the data grouped by sex (5 pts)
 
 ```{r}
-
-ggplot(mydata, aes(Sex, SL, color = Sex)) + geom_jitter()
+mydata %>% 
+  group_by(Sex) %>% 
+ggplot(mydata, mapping = aes(Sex, SL, color = Sex)) + geom_point() + 
+  geom_path( mapping = aes(group = Sex)) + 
+  scale_color_manual(values = c("blue", "orange"))
 ```
 
 2) Try an ANOVA of this data (5 pt)
@@ -169,7 +169,7 @@ ggplot(mydata, aes(SL, CPD, color = Sex)) + geom_point() + geom_smooth() + scale
 1) Add and commit this document (5 pts)
 
 ```
-# I added the documnet in my Git tab, then committed it with the changes that I made.
+# I added the documnet in my Git tab by selecting the document, then committed it with the changes that I made.
 ```
 
 2) Push your changes to github (10 pts)
